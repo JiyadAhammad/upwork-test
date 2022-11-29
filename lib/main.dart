@@ -3,9 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'controller/data/data_controller.dart';
 import 'view/splash/splash_screen.dart';
 
 bool shouldUseFirestoreEmulator = false;
+
+final Datacontroller dataController = Get.put(Datacontroller());
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

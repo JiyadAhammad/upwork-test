@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 class Datacontroller extends GetxController {
   String? pickedImage;
   String? pickedimagefromGallery;
-  // List<Student> list = <Student>[];
 
   Future<void> getCamera() async {
     final XFile? images =
