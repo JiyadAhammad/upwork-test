@@ -7,11 +7,11 @@ class AddDetails {
     required this.imageUrl,
   });
 
-  factory AddDetails.fromJson(DocumentSnapshot<Object> json) {
+  factory AddDetails.fromJson(DocumentSnapshot json) {
     return AddDetails(
-      name: json['name'] as String,
-      age: json['age'] as int,
-      imageUrl: json['imageUrl'] as String,
+      name: json['name'],
+      age: json['age'],
+      imageUrl: json['imageUrl'],
     );
   }
 
@@ -19,7 +19,19 @@ class AddDetails {
   final int age;
   final String imageUrl;
 
-  Map<String, dynamic> toJson() {
+  AddDetails copyWith({
+    String? name,
+    int? age,
+    String? imageUrl,
+  }) {
+    return AddDetails(
+      name: name ?? this.name,
+      age: age ?? this.age,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
       'age': age,
@@ -27,7 +39,7 @@ class AddDetails {
     };
   }
 
-  // String toJson() => json.encode(toJson());
+  // String toJson() => json.encode(toMap());
   // @override
   // bool get stringify => true;
 }

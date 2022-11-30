@@ -1,11 +1,10 @@
 import 'package:get/get.dart';
 
-import '../../model/adddetails/add_details.dart';
 import '../../service/database/database_services.dart';
 
 class Datacontroller extends GetxController {
   final DataBaseService dataBaseService = DataBaseService();
-  RxList<AddDetails> dataField = <AddDetails>[].obs;
+  var dataField = [].obs;
 
   @override
   void onInit() {
@@ -13,9 +12,9 @@ class Datacontroller extends GetxController {
     super.onInit();
   }
 
-  RxMap<dynamic, dynamic> newField = <dynamic, dynamic>{}.obs;
+  var newField = {}.obs;
 
-  dynamic get name => newField['name'];
-  dynamic get age => newField['age'];
-  dynamic get imageUrl => newField['imageUrl'];
+  // get name => newField['name'];
+  // get age => newField['age'];
+  // get imageUrl => newField['imageUrl'];
 }

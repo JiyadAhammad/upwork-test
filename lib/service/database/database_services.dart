@@ -5,7 +5,7 @@ import '../../model/adddetails/add_details.dart';
 
 class DataBaseService {
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  List<dynamic> alldata = <dynamic>[];
+  List<dynamic> alldata = [];
 
   Stream<List<AddDetails>> getData() {
     return firebaseFirestore.collection('items').snapshots().map(
@@ -20,7 +20,7 @@ class DataBaseService {
 
   Future<void> addData(AddDetails item) {
     return firebaseFirestore.collection('items').add(
-          item.toJson(),
+          item.toMap(),
         );
   }
 }
