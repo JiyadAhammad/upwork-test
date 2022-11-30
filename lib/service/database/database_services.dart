@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../model/adddetails/add_details.dart';
 
@@ -12,7 +10,7 @@ class DataBaseService {
       (QuerySnapshot<Map<String, dynamic>> snapshot) {
         return snapshot.docs
             .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
-                AddDetails.fromJson(doc))
+                AddDetails.fromSnapshot(doc))
             .toList();
       },
     );

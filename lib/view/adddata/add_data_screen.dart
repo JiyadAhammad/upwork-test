@@ -111,7 +111,7 @@ class AddDataScreen extends StatelessWidget {
               ),
               textFormFeild(
                 'Enter your Age (Required*)',
-                'Age',
+                'age',
                 dataControler,
               ),
               kheight20,
@@ -135,9 +135,9 @@ class AddDataScreen extends StatelessWidget {
                     ),
                   );
                   log('${dataControler.newField} items added to firebase');
-                  // Get.back();
+                  Get.back();
                 },
-                child: const Text( 
+                child: const Text(
                   'Save',
                   style: TextStyle(
                     color: kblackText,

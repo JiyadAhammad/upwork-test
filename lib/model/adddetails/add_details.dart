@@ -7,7 +7,7 @@ class AddDetails {
     required this.imageUrl,
   });
 
-  factory AddDetails.fromJson(DocumentSnapshot json) {
+  factory AddDetails.fromSnapshot(DocumentSnapshot json) {
     return AddDetails(
       name: json['name'],
       age: json['age'],
