@@ -1,12 +1,18 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../../controller/data/data_controller.dart';
+import '../../model/adddetails/add_details.dart';
+import '../../service/database/database_services.dart';
+import '../../service/storage/storage_service.dart';
 import '../constant/color/colors.dart';
 import '../constant/sizedbox/sizedbox.dart';
 import '../splash/splash_screen.dart';
-import '../widget/image_pick.dart';
+
 import '../widget/text_form_field.dart';
 
 class AddDataScreen extends StatelessWidget {
@@ -14,7 +20,10 @@ class AddDataScreen extends StatelessWidget {
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
-  File? image;
+  final StorageService storage = StorageService();
+  final DataBaseService service = DataBaseService();
+  final Datacontroller dataControler = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,45 +40,68 @@ class AddDataScreen extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
+          child: Obx(
+            () => ListView(
               children: <Widget>[
-                Stack(
-                  // clipBehavior: Clip.none,
-                  // fit: StackFit.expand,
-                  children: <Widget>[
-                    CircleAvatar(
-                      radius: 150.0,
-                      backgroundColor: kblack,
-                    ),
-                    Positioned(
-                      bottom: 20,
-                      right: 10,
-                      child: RawMaterialButton(
-                        onPressed: () {
-                          Get.bottomSheet(
-                            const ImageBottomSheet(),
-                            // barrierColor: kgrey,
-                            backgroundColor: kblack,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: const BorderSide(
-                                color: kwhite,
-                                width: 2.0,
-                              ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width / 4,
+                  child: GestureDetector(
+                    onTap: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final XFile? image = await picker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (image == null) {
+                        Get.snackbar(
+                          "Could't find Path",
+                          'Please Select an Image',
+                          snackPosition: SnackPosition.BOTTOM,
+                          colorText: kwhiteText,
+                          backgroundColor: kblack,
+                        );
+                      }
+                      if (image != null) {
+                        log('${image.path} this th direct path');
+                        await storage.uploadImage(image);
+                        final String imageUrl =
+                            await storage.getDownloadURL(image.name);
+
+                        dataControler.newField.update(
+                          'imageUrl',
+                          (_) => imageUrl,
+                          ifAbsent: () => imageUrl,
+                        );
+                        log('${dataControler.newField['imageUrl']} this is the controlller');
+                      }
+                    },
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      color: kblack,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ),
+                        child: Row(
+                          children: const <Widget>[
+                            Icon(
+                              Icons.add_a_photo,
+                              color: kwhiteIcon,
+                              size: 30,
                             ),
-                          );
-                        },
-                        fillColor: const Color(0xFFF5F6F9),
-                        padding: const EdgeInsets.all(15.0),
-                        shape: const CircleBorder(),
-                        child: const Icon(
-                          Icons.camera_alt_outlined,
-                          color: Colors.blue,
+                            kwidth20,
+                            Text(
+                              'Add a Image',
+                              style: TextStyle(
+                                color: kwhiteText,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 kheight,
                 TextFormFieldWidget(
@@ -108,7 +140,15 @@ class AddDataScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    service.addData(
+                      AddDetails(
+                        name: dataControler.newField['name'] as String,
+                        age: dataControler.newField['age'] as int,
+                        imageUrl: dataControler.newField['imageUrl'] as String,
+                      ),
+                    );
+                  },
                   child: const Text(
                     'Save',
                     style: TextStyle(

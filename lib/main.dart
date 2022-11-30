@@ -8,8 +8,6 @@ import 'view/splash/splash_screen.dart';
 
 bool shouldUseFirestoreEmulator = false;
 
-final Datacontroller dataController = Get.put(Datacontroller());
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

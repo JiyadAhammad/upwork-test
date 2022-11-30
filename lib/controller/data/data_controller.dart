@@ -1,24 +1,21 @@
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
+
+import '../../model/adddetails/add_details.dart';
+import '../../service/database/database_services.dart';
 
 class Datacontroller extends GetxController {
-  String? pickedImage;
-  String? pickedimagefromGallery;
+  final DataBaseService dataBaseService = DataBaseService();
+  RxList<AddDetails> dataField = <AddDetails>[].obs;
 
-  Future<void> getCamera() async {
-    final XFile? images =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-
-    pickedimagefromGallery = images!.path;
-    update();
+  @override
+  void onInit() {
+    dataField.bindStream(dataBaseService.getData());
+    super.onInit();
   }
 
-  Future<void> getGallery() async {
-    final XFile? images =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+  RxMap<dynamic, dynamic> newField = <dynamic, dynamic>{}.obs;
 
-    pickedimagefromGallery = images!.path;
-
-    update();
-  }
+  dynamic get name => newField['name'];
+  dynamic get age => newField['age'];
+  dynamic get imageUrl => newField['imageUrl'];
 }

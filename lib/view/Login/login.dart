@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
               child: Text('Something Went wrong'),
             );
           } else if (snapshot.hasData) {
-            return const HomeScreen();
+            return HomeScreen();
           } else {
             return LoginPageWidget(
               fText: 'ForgetPasword ?',
