@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,8 +9,6 @@ import '../../service/storage/storage_service.dart';
 import '../constant/color/colors.dart';
 import '../constant/sizedbox/sizedbox.dart';
 import '../splash/splash_screen.dart';
-
-import '../widget/text_form_field.dart';
 
 class AddDataScreen extends StatelessWidget {
   AddDataScreen({super.key});
@@ -70,8 +65,6 @@ class AddDataScreen extends StatelessWidget {
                         (_) => imageUrl,
                         ifAbsent: () => imageUrl,
                       );
-                      log('message00');
-                      log('${dataControler.newField['imageUrl']} this is the image');
                     }
                   },
                   child: Card(
@@ -134,7 +127,7 @@ class AddDataScreen extends StatelessWidget {
                       imageUrl: dataControler.newField['imageUrl'],
                     ),
                   );
-                  log('${dataControler.newField} items added to firebase');
+
                   Get.back();
                 },
                 child: const Text(
