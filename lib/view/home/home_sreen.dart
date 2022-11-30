@@ -109,27 +109,45 @@ class DataListWidget extends StatelessWidget {
           '${item.age}',
           style: TextStyle(color: kbluegrey),
         ),
-        trailing: IconButton(
-          onPressed: () async {
-            late String documentID;
-            var collection = FirebaseFirestore.instance.collection('items');
-            var querySnapshots = await collection.get();
-            for (var snapshot in querySnapshots.docs) {
-              documentID = await snapshot.id;
-            }
-            Get.to(
-              () => UpdateRecord(
-                name: item.name,
-                age: item.age,
-                index: index,
-                docId: documentID,
+        trailing: Wrap(
+          children: [
+            IconButton(
+              onPressed: () async {
+                late String documentID;
+                var collection = FirebaseFirestore.instance.collection('items');
+                var querySnapshots = await collection.get();
+                for (var snapshot in querySnapshots.docs) {
+                  documentID = await snapshot.id;
+                }
+                Get.to(
+                  () => UpdateRecord(
+                    name: item.name,
+                    age: item.age,
+                    index: index,
+                    docId: documentID,
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.edit,
+                color: kgreen,
               ),
-            );
-          },
-          icon: Icon(
-            Icons.edit,
-            color: kgreen,
-          ),
+            ),
+            IconButton(
+              onPressed: () async {
+                FirebaseFirestore.instance
+                    .collection("messages")
+                    .doc(dataController.dataField[index])
+                    .delete();
+                // .document(snapshot.data.documents[index]["id"])
+                // .delete();
+              },
+              icon: Icon(
+                Icons.delete,
+                color: kred,
+              ),
+            ),
+          ],
         ),
       ),
     );
