@@ -1,109 +1,99 @@
 import 'dart:developer';
 
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:upmarkettest/view/constant/color/colors.dart';
+import 'package:upmarkettest/view/constant/sizedbox/sizedbox.dart';
 import 'package:upmarkettest/view/splash/splash_screen.dart';
+import 'package:upmarkettest/view/widget/text_form_field.dart';
 
-class FetchData extends StatelessWidget {
-  FetchData({Key? key}) : super(key: key);
+class UpdateRecord extends StatelessWidget {
+  UpdateRecord(
+      {Key? key,
+      required this.name,
+      required this.age,
+      required this.index,
+      required this.docId})
+      : super(key: key);
 
-  final Query dbref = FirebaseDatabase.instance.ref().child('items');
-
-  Widget listItem({required Map student, context}) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(10),
-      height: 110,
-      color: Colors.amberAccent,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            student.values.toList().toString(),
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            'student[age]',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            'student[salary]',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => UpdateRecord(
-                        studentKey: student['key'],
-                      ),
-                    ),
-                  );
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.edit,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
+  final String name;
+  final int age;
+  final int index;
+  final String docId;
+  final TextEditingController editNamecontroller = TextEditingController();
+  final TextEditingController editAgecontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    log('nthelum work avundooo');
+    log('$name , $age ,$index $docId');
     return Container(
       decoration: backgrounColor(),
       child: Scaffold(
         backgroundColor: ktransparent,
-        body: Container(
-          height: double.infinity,
-          child: FirebaseAnimatedList(
-            query: dbref,
-            itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                Animation<double> animation, int index) {
-              Map dataItem = snapshot.value as Map;
-              dataItem[key] = snapshot.key;
-              return listItem(student: dataItem, context: context);
-            },
+        appBar: AppBar(
+          title: Text(
+            'edit details',
+          ),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: ktransparent,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              TextFormFieldWidget(
+                prefixIcon: Icons.abc,
+                hintText: name.toUpperCase(),
+                controller: editNamecontroller,
+                validator: (p0) {
+                  return null;
+                },
+              ),
+              TextFormFieldWidget(
+                prefixIcon: Icons.abc,
+                hintText: age.toString().toUpperCase(),
+                controller: editAgecontroller,
+                validator: (p0) {
+                  return null;
+                },
+              ),
+              kheight20,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: kwhite,
+                  minimumSize: Size(
+                    MediaQuery.of(context).size.width / 1.5,
+                    50,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
+                onPressed: () {
+                  Map<String, dynamic> dataToUpdate = {
+                    'name': editNamecontroller.text,
+                    'age': editAgecontroller.text,
+                  };
+                  CollectionReference collectionReference =
+                      FirebaseFirestore.instance.collection('items');
+                  DocumentReference documentReference =
+                      collectionReference.doc(docId[index]);
+                  documentReference.update(dataToUpdate);
+                  Get.back();
+                },
+                child: const Text(
+                  'Save',
+                  style: TextStyle(
+                    color: kblackText,
+                    fontSize: 25,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
-  }
-}
-
-class UpdateRecord extends StatelessWidget {
-  const UpdateRecord({
-    Key? key,
-    required this.studentKey,
-  }) : super(key: key);
-
-  final studentKey;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

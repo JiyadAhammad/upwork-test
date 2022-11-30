@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:upmarkettest/model/adddetails/add_details.dart';
+import 'package:upmarkettest/view/update/update_data.dart';
 
 import '../../controller/data/data_controller.dart';
 import '../adddata/add_data_screen.dart';
@@ -18,7 +20,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('${datacontroller.dataField.length} lwngth of items');
     return Container(
       decoration: backgrounColor(),
       child: Scaffold(
@@ -109,7 +110,22 @@ class DataListWidget extends StatelessWidget {
           style: TextStyle(color: kbluegrey),
         ),
         trailing: IconButton(
-          onPressed: () {},
+          onPressed: () async {
+            late String documentID;
+            var collection = FirebaseFirestore.instance.collection('items');
+            var querySnapshots = await collection.get();
+            for (var snapshot in querySnapshots.docs) {
+              documentID = await snapshot.id;
+            }
+            Get.to(
+              () => UpdateRecord(
+                name: item.name,
+                age: item.age,
+                index: index,
+                docId: documentID,
+              ),
+            );
+          },
           icon: Icon(
             Icons.edit,
             color: kgreen,
