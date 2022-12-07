@@ -1,11 +1,8 @@
-import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:upmarkettest/model/adddetails/add_details.dart';
-import 'package:upmarkettest/view/update/update_data.dart';
 
 import '../../controller/data/data_controller.dart';
 import '../adddata/add_data_screen.dart';
@@ -15,7 +12,6 @@ import '../splash/splash_screen.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  // final Datacontroller dataController = Get.put(Datacontroller());
   final Datacontroller datacontroller = Get.put(Datacontroller());
 
   @override
@@ -23,45 +19,46 @@ class HomeScreen extends StatelessWidget {
     return Container(
       decoration: backgrounColor(),
       child: Scaffold(
+        backgroundColor: ktransparent,
+        appBar: AppBar(
           backgroundColor: ktransparent,
-          appBar: AppBar(
-            backgroundColor: ktransparent,
-            elevation: 0,
-            title: const Text(
-              'UPMARKET',
-            ),
-            centerTitle: true,
-            actions: <Widget>[
-              IconButton(
-                onPressed: () {
-                  Get.to(() => AddDataScreen());
-                },
-                icon: const Icon(
-                  Icons.add_circle_outline,
-                ),
-              ),
-            ],
+          elevation: 0,
+          title: const Text(
+            'UPMARKET',
           ),
-          body: Obx(
-            () => ListView.builder(
-              itemCount: datacontroller.dataField.length,
-              itemBuilder: (BuildContext context, int index) {
-                return datacontroller.dataField.length == 0
-                    ? LottieBuilder.asset('asset\lottie\emptyfile.json')
-                    : Padding(
-                        padding: EdgeInsets.only(
-                          top: 10,
-                          right: 10,
-                          left: 10,
-                        ),
-                        child: DataListWidget(
-                          item: datacontroller.dataField[index],
-                          index: index,
-                        ),
-                      );
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                Get.to(() => AddDataScreen());
               },
+              icon: const Icon(
+                Icons.add_circle_outline,
+              ),
             ),
-          )),
+          ],
+        ),
+        body: Obx(
+          () => ListView.builder(
+            itemCount: datacontroller.dataField.length,
+            itemBuilder: (BuildContext context, int index) {
+              return datacontroller.dataField.length == 0
+                  ? LottieBuilder.asset('asset\lottie\emptyfile.json')
+                  : Padding(
+                      padding: EdgeInsets.only(
+                        top: 10,
+                        right: 10,
+                        left: 10,
+                      ),
+                      child: DataListWidget(
+                        item: datacontroller.dataField[index],
+                        index: index,
+                      ),
+                    );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
@@ -112,36 +109,14 @@ class DataListWidget extends StatelessWidget {
         trailing: Wrap(
           children: [
             IconButton(
-              onPressed: () async {
-                late String documentID;
-                var collection = FirebaseFirestore.instance.collection('items');
-                var querySnapshots = await collection.get();
-                for (var snapshot in querySnapshots.docs) {
-                  documentID = await snapshot.id;
-                }
-                Get.to(
-                  () => UpdateRecord(
-                    name: item.name,
-                    age: item.age,
-                    index: index,
-                    docId: documentID,
-                  ),
-                );
-              },
+              onPressed: () async {},
               icon: Icon(
                 Icons.edit,
                 color: kgreen,
               ),
             ),
             IconButton(
-              onPressed: () async {
-                FirebaseFirestore.instance
-                    .collection("messages")
-                    .doc(dataController.dataField[index])
-                    .delete();
-                // .document(snapshot.data.documents[index]["id"])
-                // .delete();
-              },
+              onPressed: () async {},
               icon: Icon(
                 Icons.delete,
                 color: kred,

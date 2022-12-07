@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../model/adddetails/add_details.dart';
 
@@ -16,9 +18,27 @@ class DataBaseService {
     );
   }
 
-  Future<void> addData(AddDetails item) {
-    return firebaseFirestore.collection('items').add(
-          item.toMap(),
-        );
+  Future<void> addData({
+    required String name,
+    required String image,
+    required int age,
+  }) async {
+    log('message');
+
+    final addFeild = firebaseFirestore.collection('items').doc();
+    // final Map<String, dynamic> json = {
+    //   'name': name,
+    //   'imageUrl': image,
+    //   'age': age,
+    // };
+
+    final user = AddDetails(
+      id: addFeild.id,
+      name: name,
+      age: age,
+      imageUrl: image,
+    );
+    final Map<String, dynamic> json = user.toMap();
+    await addFeild.set(json);
   }
 }

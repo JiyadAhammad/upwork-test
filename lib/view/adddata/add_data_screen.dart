@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:upmarkettest/model/adddetails/add_details.dart';
 
 import '../../controller/data/data_controller.dart';
-import '../../model/adddetails/add_details.dart';
 import '../../service/database/database_services.dart';
 import '../../service/storage/storage_service.dart';
 import '../constant/color/colors.dart';
@@ -120,12 +122,11 @@ class AddDataScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
+                  // log(dataControler.newField['name']);
                   service.addData(
-                    AddDetails(
-                      name: dataControler.newField['name'],
-                      age: int.parse(dataControler.newField['age']),
-                      imageUrl: dataControler.newField['imageUrl'],
-                    ),
+                    name: dataControler.newField['name'] as String,
+                    image: dataControler.newField['imageUrl'] as String,
+                    age: int.parse(dataControler.newField['age'] as String),
                   );
 
                   Get.back();
