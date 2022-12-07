@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:upmarkettest/model/adddetails/add_details.dart';
 
 import '../../controller/data/data_controller.dart';
 import '../../service/database/database_services.dart';

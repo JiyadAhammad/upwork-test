@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import '../../model/adddetails/add_details.dart';
 
 class DataBaseService {
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  List<dynamic> alldata = [];
+  List<dynamic> alldata = <dynamic>[];
 
   Stream<List<AddDetails>> getData() {
     return firebaseFirestore.collection('items').snapshots().map(
@@ -25,14 +26,10 @@ class DataBaseService {
   }) async {
     log('message');
 
-    final addFeild = firebaseFirestore.collection('items').doc();
-    // final Map<String, dynamic> json = {
-    //   'name': name,
-    //   'imageUrl': image,
-    //   'age': age,
-    // };
+    final DocumentReference<Map<String, dynamic>> addFeild =
+        firebaseFirestore.collection('items').doc();
 
-    final user = AddDetails(
+    final AddDetails user = AddDetails(
       id: addFeild.id,
       name: name,
       age: age,
@@ -40,5 +37,19 @@ class DataBaseService {
     );
     final Map<String, dynamic> json = user.toMap();
     await addFeild.set(json);
+  }
+
+  void updateFeild(
+    String docId,
+    TextEditingController editNamecontroller,
+    TextEditingController editAgecontroller,
+  ) {
+    final DocumentReference<Map<String, dynamic>> docUser =
+        FirebaseFirestore.instance.collection('items').doc(docId);
+
+    docUser.update(<String, Object?>{
+      'name': editNamecontroller.text,
+      'age': int.parse(editAgecontroller.text),
+    });
   }
 }
