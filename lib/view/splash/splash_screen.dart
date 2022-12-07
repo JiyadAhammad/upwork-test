@@ -6,7 +6,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../Login/login.dart';
 import '../constant/color/colors.dart';
-import '../home/home_sreen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

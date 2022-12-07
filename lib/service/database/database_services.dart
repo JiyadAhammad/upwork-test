@@ -52,4 +52,10 @@ class DataBaseService {
       'age': int.parse(editAgecontroller.text),
     });
   }
+
+  void deleteFeild(String docId) {
+    final DocumentReference<Map<String, dynamic>> user =
+        FirebaseFirestore.instance.collection('items').doc(docId);
+    user.delete();
+  }
 }

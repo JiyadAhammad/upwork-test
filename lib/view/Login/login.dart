@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../constant/color/colors.dart';
 import '../home/home_sreen.dart';
-import '../splash/splash_screen.dart';
 import 'widget/login_page_widget.dart';
 
 class LoginScreen extends StatelessWidget {

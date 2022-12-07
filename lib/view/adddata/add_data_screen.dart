@@ -161,7 +161,7 @@ class AddDataScreen extends StatelessWidget {
         ),
         decoration: InputDecoration(
           focusColor: kwhite,
-          prefixIcon: Icon(
+          prefixIcon: const Icon(
             Icons.account_circle_rounded,
             color: kbluegrey,
           ),

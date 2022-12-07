@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/data/data_controller.dart';
 import '../../../model/adddetails/add_details.dart';
+import '../../../service/database/database_services.dart';
 import '../../constant/color/colors.dart';
 import '../../update/update_data.dart';
 
@@ -18,6 +17,7 @@ class DataListWidget extends StatelessWidget {
   final AddDetails item;
   final int index;
   final Datacontroller dataController = Get.find();
+  final DataBaseService service = DataBaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,10 @@ class DataListWidget extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () async {},
+              onPressed: () async {
+                // log('${item.id.runtimeType}');
+                service.deleteFeild(item.id);
+              },
               icon: const Icon(
                 Icons.delete,
                 color: kred,

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../controller/data/data_controller.dart';
-import '../../model/adddetails/add_details.dart';
 import '../adddata/add_data_screen.dart';
 import '../constant/color/colors.dart';
 import '../splash/splash_screen.dart';

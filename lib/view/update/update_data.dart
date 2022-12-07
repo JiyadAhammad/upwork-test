@@ -1,14 +1,13 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:upmarkettest/view/constant/color/colors.dart';
-import 'package:upmarkettest/view/constant/sizedbox/sizedbox.dart';
-import 'package:upmarkettest/view/splash/splash_screen.dart';
-import 'package:upmarkettest/view/widget/text_form_field.dart';
 
 import '../../service/database/database_services.dart';
+import '../constant/color/colors.dart';
+import '../constant/sizedbox/sizedbox.dart';
+import '../splash/splash_screen.dart';
+import '../widget/text_form_field.dart';
 
 class UpdateRecord extends StatelessWidget {
   UpdateRecord(
@@ -25,7 +24,7 @@ class UpdateRecord extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController editNamecontroller = TextEditingController();
   final TextEditingController editAgecontroller = TextEditingController();
-  DataBaseService service = DataBaseService();
+  final DataBaseService service = DataBaseService();
 
   @override
   Widget build(BuildContext context) {
